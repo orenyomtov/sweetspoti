@@ -357,6 +357,8 @@ async function main() {
   processLoginRedirect();
 
   if (!isLoggedIn()) {
+    updateProgressBar(0, "Redirecting to login via Spotify...");
+    document.getElementsByClassName("progress")[0].style.display = "none";
     return redirectToLogin();
   }
 
