@@ -6,6 +6,14 @@ var promiseThrottle = new PromiseThrottle({
   requestsPerSecond: 9,
   promiseImplementation: Promise,
 });
+var wakeLock = null;
+
+try {
+  wakeLock = await navigator.wakeLock.request('screen');
+} catch (err) {
+  console.log(err);
+}
+
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
