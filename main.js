@@ -1,4 +1,5 @@
 var playlistsData = [];
+var metricType = "";
 var progressBarPercent = 0;
 var playlistsCount = 0;
 var promiseThrottle = new PromiseThrottle({
@@ -20,7 +21,7 @@ function timeAgo(time) {
     { name: "month", limit: 31556926, in_seconds: 2629743 },
     { name: "year", limit: null, in_seconds: 31556926 },
   ];
-  var diff = (new Date() - new Date(time * 1000)) / 1000;
+  var diff = (new Date() - new Date(time)) / 1000;
   if (diff < 5) return "now";
 
   var i = 0;
@@ -193,7 +194,7 @@ async function fetchPlaylists() {
   const key = "playlistsData";
   let fetchedPlaylistsData = window.localStorage.getItem(key);
   if (!fetchedPlaylistsData) {
-    const spotifyUserFollowedUsers = (await getFollowedUsers(spotifyApi)).slice(2,5);
+    const spotifyUserFollowedUsers = await getFollowedUsers(spotifyApi);
     updateProgressBar(10, "Loading playlists...");
     fetchedPlaylistsData = await getFullPlaylists(spotifyUserFollowedUsers);
     window.localStorage.setItem(key, JSON.stringify(fetchedPlaylistsData));
@@ -203,6 +204,8 @@ async function fetchPlaylists() {
   hideProgressBar();
   return fetchedPlaylistsData;
 }
+
+function getMetric(playlist) {}
 
 function getPlaylistHTML(playlist) {
   const image = playlist.images[playlist.images.length - 1];
@@ -262,7 +265,7 @@ function getPlaylistHTML(playlist) {
         tabindex="-1"
       >
         <div class="ec1b5762556429ac3aeedbae72433491-scss">
-          ${playlist.followers} followers
+          ${playlist.metric}
         </div>
       </div>
     </div>
@@ -270,8 +273,8 @@ function getPlaylistHTML(playlist) {
 }
 
 function stopEventPropagation(event) {
-    event.stopPropagation()
-  }
+  event.stopPropagation();
+}
 
 function updateProgressBar(percent, text) {
   progressBarPercent = percent;
@@ -290,10 +293,14 @@ function hideProgressBar() {
   document.getElementById("progressBarContainer").style.display = "none";
 }
 
-function renderUI(playlists) {
+function renderUI(playlists, getMetric) {
   console.log(playlists);
   const playlistContainer = document.getElementById("playlistsContainer");
-  playlistsHtml = playlists.map(getPlaylistHTML).join("");
+  playlistsWithMetric = playlists.map((item) => ({
+    ...item,
+    metric: getMetric(item),
+  }));
+  playlistsHtml = playlistsWithMetric.map(getPlaylistHTML).join("");
   playlistContainer.innerHTML = playlistsHtml;
 }
 
@@ -312,13 +319,15 @@ function selectButton(button) {
     "a4bc298d40e9660cd25cd3ac1a7f9c49-scss"
   );
 }
+
 function renderPopular(button) {
   selectButton(button);
 
   renderUI(
     playlistsData
       .filter((x) => x.followers > 0)
-      .sort((b, a) => a.followers - b.followers)
+      .sort((b, a) => a.followers - b.followers),
+    (playlist) => `${playlist.followers} followers`
   );
 }
 
@@ -328,7 +337,8 @@ function renderRecent(button) {
   renderUI(
     playlistsData
       .filter((x) => x.followers > 0)
-      .sort((b, a) => a.last_updated - b.last_updated)
+      .sort((b, a) => a.last_updated - b.last_updated),
+    (playlist) => `${timeAgo(playlist.last_updated)} ago`
   );
 }
 
@@ -338,7 +348,8 @@ function renderNew(button) {
   renderUI(
     playlistsData
       .filter((x) => x.followers > 0)
-      .sort((b, a) => a.created_at - b.created_at)
+      .sort((b, a) => a.created_at - b.created_at),
+    (playlist) => `${timeAgo(playlist.created_at)} ago`
   );
 }
 
