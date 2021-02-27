@@ -8,13 +8,6 @@ var promiseThrottle = new PromiseThrottle({
 });
 var wakeLock = null;
 
-try {
-  wakeLock = await navigator.wakeLock.request('screen');
-} catch (err) {
-  console.log(err);
-}
-
-
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -133,7 +126,7 @@ async function getAllUserPlaylists(userId) {
   const playlists = playlistsResponse.items;
   const onlyUserPlaylists = playlists.filter((p) => p.owner.id === userId);
   incrementProgressBar();
-  console.log(userId)
+  console.log(userId);
   return onlyUserPlaylists;
 }
 
@@ -372,6 +365,12 @@ function renderNew(button) {
 }
 
 async function main() {
+  try {
+    wakeLock = await navigator.wakeLock.request("screen");
+  } catch (err) {
+    console.log(err);
+  }
+
   processLoginRedirect();
 
   if (!isLoggedIn()) {
@@ -386,7 +385,7 @@ async function main() {
   );
 
   playlistsData = await fetchPlaylists();
-  
+
   renderPopular();
 }
 
