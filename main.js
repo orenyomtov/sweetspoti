@@ -332,8 +332,8 @@ function renderPopular(button) {
 }
 
 function renderRecent(button) {
-  if (playlistsData[0].created_at === NaN) {
-    return alert('Please wait for the loading to complete :)');
+  if (!playlistsData && !playlistsData[0].created_at) {
+    return alert("Please wait for the loading to complete :)");
   }
 
   selectButton(button);
@@ -347,8 +347,8 @@ function renderRecent(button) {
 }
 
 function renderNew(button) {
-  if (playlistsData[0].created_at === NaN) {
-    return alert('Please wait for the loading to complete :)');
+  if (!playlistsData && !playlistsData[0].created_at) {
+    return alert("Please wait for the loading to complete :)");
   }
 
   selectButton(button);
