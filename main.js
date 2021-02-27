@@ -1,10 +1,17 @@
+var promiseThrottle = new PromiseThrottle({
+  requestsPerSecond: 10,
+  promiseImplementation: Promise,
+});
+
 async function getAllPages(request) {
   const paginatedResponse = await request;
 
   let currentResponse = paginatedResponse;
 
   while (currentResponse.next) {
-    currentResponse = await spotifyApi.getGeneric(currentResponse.next);
+    currentResponse = await promiseThrottle.add(function () {
+      return spotifyApi.getGeneric(currentResponse.next);
+    });
     paginatedResponse.items = paginatedResponse.items.concat(
       currentResponse.items
     );
@@ -52,10 +59,13 @@ async function getFullPlaylists(followed) {
   const userIds = getUserIds(followed);
   const usersPlaylists = await Promise.all(userIds.map(getAllUserPlaylists));
   const allPlaylists = usersPlaylists.flat();
-  return allPlaylists;
+  //   return allPlaylists;
   const augmentedPlaylists = await Promise.all(
-    allPlaylists.map(augmentPlaylistWithTracks)
+    allPlaylists.map(augmentPlaylistWithFollowers)
   );
+//   const augmentedPlaylists = await Promise.all(
+//     allPlaylists.map(augmentPlaylistWithTracks)
+//   );
   return augmentedPlaylists;
 }
 
@@ -64,9 +74,21 @@ function getUserIds(followed) {
 }
 
 async function getAllUserPlaylists(userId) {
-  const reqPromise = spotifyApi.getUserPlaylists(userId, { limit: 50 });
-  const playlistsResponse = await getAllPages(reqPromise);
-  return playlistsResponse.items;
+  const playlistsResponse = await getAllPages(
+    promiseThrottle.add(function () {
+      return spotifyApi.getUserPlaylists(userId, { limit: 50 });
+    })
+  );
+  const playlists = playlistsResponse.items;
+  const onlyUserPlaylists = playlists.filter((p) => p.owner.id === userId);
+  return onlyUserPlaylists;
+}
+
+async function augmentPlaylistWithFollowers(playlistObj) {
+  const { followers } = await promiseThrottle.add(function () {
+    return spotifyApi.getPlaylist(playlistObj.id);
+  });
+  return {...playlistObj, followers: followers.total};
 }
 
 async function augmentPlaylistWithTracks(playlistObj) {
@@ -76,8 +98,11 @@ async function augmentPlaylistWithTracks(playlistObj) {
 }
 
 async function getAllPlaylistTracks(playlistId) {
-  const reqPromise = spotifyApi.getPlaylistTracks(playlistId);
-  const tracksResponse = await getAllPages(reqPromise);
+  const tracksResponse = await getAllPages(
+    promiseThrottle.add(function () {
+      return spotifyApi.getPlaylistTracks(playlistId);
+    })
+  );
   return tracksResponse.items;
 }
 
@@ -135,9 +160,7 @@ async function fetchPlaylists() {
 
 function getPlaylistHTML(playlist) {
   const image = playlist.images[playlist.images.length - 1];
-  imageUrl = image
-    ? image.url
-    : "/default.png";
+  imageUrl = image ? image.url : "/default.png";
   return `<div role="row" aria-rowindex="1" aria-selected="false">
     <div
       data-testid="tracklist-row"
@@ -190,7 +213,7 @@ function getPlaylistHTML(playlist) {
         tabindex="-1"
       >
         <div class="ec1b5762556429ac3aeedbae72433491-scss">
-          2 followers
+          ${playlist.followers} followers
         </div>
       </div>
     </div>
@@ -199,7 +222,8 @@ function getPlaylistHTML(playlist) {
 
 function renderUI(playlists) {
   const playlistContainer = document.getElementById("playlistsContainer");
-  playlistsHtml = playlists.map(getPlaylistHTML).join("");
+  const sortedPlaylists = playlists.filter(x => x.followers > 0).sort((b, a) => a.followers - b.followers)
+  playlistsHtml = sortedPlaylists.map(getPlaylistHTML).join("");
   playlistContainer.innerHTML = playlistsHtml;
 }
 
