@@ -87,11 +87,12 @@ async function getFollowedUsers(spotifyApi) {
 
 async function getFullPlaylists(followed) {
   const userIds = getUserIds(followed);
+  playlistsCount = userIds.length;
   const usersPlaylists = await Promise.all(userIds.map(getAllUserPlaylists));
   const allPlaylists = usersPlaylists.flat().filter((x) => x.tracks.total > 3);
 
   playlistsCount = allPlaylists.length;
-  updateProgressBar(20, "Loading followers...");
+  updateProgressBar(40, "Loading followers...");
 
   let augmentedPlaylists = await Promise.all(
     allPlaylists.map(augmentPlaylistWithFollowers)
@@ -112,7 +113,7 @@ async function getFullPlaylists(followed) {
 }
 
 function getUserIds(followed) {
-  return followed.map((user) => user.uri.split(":")[2]);
+  return followed.map((user) => decodeURIComponent(user.uri.split(":")[2]));
 }
 
 async function getAllUserPlaylists(userId) {
@@ -123,6 +124,8 @@ async function getAllUserPlaylists(userId) {
   );
   const playlists = playlistsResponse.items;
   const onlyUserPlaylists = playlists.filter((p) => p.owner.id === userId);
+  incrementProgressBar();
+  console.log(userId)
   return onlyUserPlaylists;
 }
 
@@ -286,7 +289,7 @@ function updateProgressBar(percent, text) {
 }
 
 function incrementProgressBar() {
-  updateProgressBar(progressBarPercent + 40 / playlistsCount);
+  updateProgressBar(progressBarPercent + 30 / playlistsCount);
 }
 
 function hideProgressBar() {
