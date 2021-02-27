@@ -1,14 +1,16 @@
 async function getAllPages(request) {
-    const paginatedResponse = await request;
+  const paginatedResponse = await request;
 
-    let currentResponse = paginatedResponse;
+  let currentResponse = paginatedResponse;
 
-    while (currentResponse.next) {
-        currentResponse = await spotifyApi.getGeneric(currentResponse.next);
-        paginatedResponse.items = paginatedResponse.items.concat(currentResponse.items);
-    }
+  while (currentResponse.next) {
+    currentResponse = await spotifyApi.getGeneric(currentResponse.next);
+    paginatedResponse.items = paginatedResponse.items.concat(
+      currentResponse.items
+    );
+  }
 
-    return paginatedResponse;
+  return paginatedResponse;
 }
 
 async function fetchSpotifyGuestAccessToken() {
@@ -49,8 +51,8 @@ function processLoginRedirect() {
 }
 
 function redirectToLogin() {
-    // window.location.href = 'https://accounts.spotify.com/authorize?client_id=8bf1d78c0a4e44aaa611730d9caf856c&response_type=token&redirect_uri=https%3A%2F%2Fwww.sweetspoti.com%2F&scope=user-follow-read'
-    window.location.href = "https://accounts.spotify.com/authorize?client_id=8bf1d78c0a4e44aaa611730d9caf856c&response_type=token&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2F&scope=user-follow-read";
+    const redirectUrl = encodeURIComponent(window.location.href)
+    window.location.href = `https://accounts.spotify.com/authorize?client_id=8bf1d78c0a4e44aaa611730d9caf856c&response_type=token&redirect_uri=${redirectUrl}&scope=user-follow-read`
 }
 
 function isLoggedIn() {
