@@ -332,6 +332,10 @@ function renderPopular(button) {
 }
 
 function renderRecent(button) {
+  if (playlistsData[0].created_at === NaN) {
+    return alert('Please wait for the loading to complete :)');
+  }
+
   selectButton(button);
 
   renderUI(
@@ -343,6 +347,10 @@ function renderRecent(button) {
 }
 
 function renderNew(button) {
+  if (playlistsData[0].created_at === NaN) {
+    return alert('Please wait for the loading to complete :)');
+  }
+
   selectButton(button);
 
   renderUI(
