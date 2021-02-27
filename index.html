@@ -1,32 +1,49 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>SweetSpoti - Discover Your Friends' Playlists</title>
-    <meta name="title" content="SweetSpoti - Discover Your Friends' Playlists">
-    <meta name="description" content="With SweetSpoti you can discover the playlists your friends created in a fun and intuitive way">
+    <meta
+      name="title"
+      content="SweetSpoti - Discover Your Friends' Playlists"
+    />
+    <meta
+      name="description"
+      content="With SweetSpoti you can discover the playlists your friends created in a fun and intuitive way"
+    />
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.sweetspoti.com/">
-    <meta property="og:title" content="SweetSpoti - Discover Your Friends' Playlists">
-    <meta property="og:description" content="With SweetSpoti you can discover the playlists your friends created in a fun and intuitive way">
-    <meta property="og:image" content="/screenshot.png">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.sweetspoti.com/" />
+    <meta
+      property="og:title"
+      content="SweetSpoti - Discover Your Friends' Playlists"
+    />
+    <meta
+      property="og:description"
+      content="With SweetSpoti you can discover the playlists your friends created in a fun and intuitive way"
+    />
+    <meta property="og:image" content="/screenshot.png" />
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://www.sweetspoti.com/">
-    <meta property="twitter:title" content="SweetSpoti - Discover Your Friends' Playlists">
-    <meta property="twitter:description" content="With SweetSpoti you can discover the playlists your friends created in a fun and intuitive way">
-    <meta property="twitter:image" content="/screenshot.png">
-    
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://www.sweetspoti.com/" />
+    <meta
+      property="twitter:title"
+      content="SweetSpoti - Discover Your Friends' Playlists"
+    />
+    <meta
+      property="twitter:description"
+      content="With SweetSpoti you can discover the playlists your friends created in a fun and intuitive way"
+    />
+    <meta property="twitter:image" content="/screenshot.png" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -79,32 +96,29 @@
               class="a339f5873501630360d9da0c7938f28b-scss _0e8005074dbda3fac5e3e0351fa82d97-scss"
             >
               <ul class="_50d97b6270ce5e1b70d300348bc6b80d-scss">
-                <li class="_0787ecf44d56591be72b1f2c0e2f2320-scss">
+                <li class="_0787ecf44d56591be72b1f2c0e2f2320-scss" onclick="renderPopular(this)">
                   <a
                     class="_43e978b8fbef3b1a5fc86ea29e51a0fd-scss a4bc298d40e9660cd25cd3ac1a7f9c49-scss"
                     draggable="false"
-                    href="/collection/playlists"
                     aria-current="page"
                     ><span class="_9642f084eaa7faec9f8f003145b6c289-scss"
                       >Popular</span
                     ></a
                   >
                 </li>
-                <li class="_0787ecf44d56591be72b1f2c0e2f2320-scss">
+                <li class="_0787ecf44d56591be72b1f2c0e2f2320-scss" onclick="renderRecent(this)">
                   <a
                     class="_43e978b8fbef3b1a5fc86ea29e51a0fd-scss"
                     draggable="false"
-                    href="/collection/podcasts"
                     ><span class="_9642f084eaa7faec9f8f003145b6c289-scss"
                       >Recently Updated</span
                     ></a
                   >
                 </li>
-                <li class="_0787ecf44d56591be72b1f2c0e2f2320-scss">
+                <li class="_0787ecf44d56591be72b1f2c0e2f2320-scss" onclick="renderNew(this)">
                   <a
                     class="_43e978b8fbef3b1a5fc86ea29e51a0fd-scss"
                     draggable="false"
-                    href="/collection/artists"
                     ><span class="_9642f084eaa7faec9f8f003145b6c289-scss"
                       >New</span
                     ></a
@@ -116,6 +130,14 @@
         </div>
       </header>
       <div></div>
+    </div>
+
+    <div id="progressBarContainer">
+      <p id="progressText">Loading followed users...</p>
+
+      <div class="progress">
+        <div class="progress-value" id="progressBar"></div>
+      </div>
     </div>
 
     <section
@@ -140,15 +162,15 @@
             <div
               class="c27f49a483c85a5b88b3f37fb918e497-scss"
               id="playlistsContainer"
-            ><img src="https://i.pinimg.com/474x/ce/91/d5/ce91d5be1a1b3b8c8e834798dcb058ca.jpg">
-        </div>
+            >
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <script>
-        module = {}
+      module = {};
     </script>
     <script src="https://cdn.jsdelivr.net/npm/spotify-web-api-js@1.5.1/src/spotify-web-api.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/promise-throttle@1.1.2/lib/main.min.js"></script>

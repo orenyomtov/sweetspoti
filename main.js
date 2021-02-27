@@ -1,7 +1,36 @@
+var playlistsData = [];
+var progressBarPercent = 0;
+var playlistsCount = 0;
 var promiseThrottle = new PromiseThrottle({
-  requestsPerSecond: 10,
+  requestsPerSecond: 9,
   promiseImplementation: Promise,
 });
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function timeAgo(time) {
+  var units = [
+    { name: "second", limit: 60, in_seconds: 1 },
+    { name: "minute", limit: 3600, in_seconds: 60 },
+    { name: "hour", limit: 86400, in_seconds: 3600 },
+    { name: "day", limit: 604800, in_seconds: 86400 },
+    { name: "week", limit: 2629743, in_seconds: 604800 },
+    { name: "month", limit: 31556926, in_seconds: 2629743 },
+    { name: "year", limit: null, in_seconds: 31556926 },
+  ];
+  var diff = (new Date() - new Date(time * 1000)) / 1000;
+  if (diff < 5) return "now";
+
+  var i = 0;
+  while ((unit = units[i++])) {
+    if (diff < unit.limit || !unit.limit) {
+      var diff = Math.floor(diff / unit.in_seconds);
+      return diff + " " + unit.name + (diff > 1 ? "s" : "");
+    }
+  }
+}
 
 async function getAllPages(request) {
   const paginatedResponse = await request;
@@ -58,14 +87,26 @@ async function getFollowedUsers(spotifyApi) {
 async function getFullPlaylists(followed) {
   const userIds = getUserIds(followed);
   const usersPlaylists = await Promise.all(userIds.map(getAllUserPlaylists));
-  const allPlaylists = usersPlaylists.flat();
-  //   return allPlaylists;
-  const augmentedPlaylists = await Promise.all(
+  const allPlaylists = usersPlaylists.flat().filter((x) => x.tracks.total > 3);
+
+  playlistsCount = allPlaylists.length;
+  updateProgressBar(20, "Loading followers...");
+
+  let augmentedPlaylists = await Promise.all(
     allPlaylists.map(augmentPlaylistWithFollowers)
   );
-//   const augmentedPlaylists = await Promise.all(
-//     allPlaylists.map(augmentPlaylistWithTracks)
-//   );
+
+  playlistsData = augmentedPlaylists;
+  renderPopular();
+
+  updateProgressBar(60, "Wondering why Spotify's API is so slow...");
+  await sleep(1000);
+
+  updateProgressBar(60, "Loading activity data...");
+
+  augmentedPlaylists = await Promise.all(
+    augmentedPlaylists.map(augmentPlaylistWithTracks)
+  );
   return augmentedPlaylists;
 }
 
@@ -88,12 +129,15 @@ async function augmentPlaylistWithFollowers(playlistObj) {
   const { followers } = await promiseThrottle.add(function () {
     return spotifyApi.getPlaylist(playlistObj.id);
   });
-  return {...playlistObj, followers: followers.total};
+  incrementProgressBar();
+
+  return { ...playlistObj, followers: followers.total };
 }
 
 async function augmentPlaylistWithTracks(playlistObj) {
   const tracks = await getAllPlaylistTracks(playlistObj.id);
   const dates = getDates(tracks);
+  incrementProgressBar();
   return { ...playlistObj, ...dates };
 }
 
@@ -107,9 +151,9 @@ async function getAllPlaylistTracks(playlistId) {
 }
 
 function getDates(tracks) {
-  const dates = tracks.map((t) => new Date(t.added_at));
-  const last_updated = new Date(Math.max(...dates));
-  const created_at = new Date(Math.min(...dates));
+  const dates = tracks.map((t) => new Date(t.added_at).getTime());
+  const last_updated = Math.max(...dates);
+  const created_at = Math.min(...dates);
   return { last_updated, created_at };
 }
 
@@ -147,25 +191,29 @@ function isLoggedIn() {
 
 async function fetchPlaylists() {
   const key = "playlistsData";
-  let playlistsData = window.localStorage.getItem(key);
-  if (!playlistsData) {
-    const spotifyUserFollowedUsers = await getFollowedUsers(spotifyApi);
-    playlistsData = await getFullPlaylists(spotifyUserFollowedUsers);
-    window.localStorage.setItem(key, JSON.stringify(playlistsData));
+  let fetchedPlaylistsData = window.localStorage.getItem(key);
+  if (!fetchedPlaylistsData) {
+    const spotifyUserFollowedUsers = (await getFollowedUsers(spotifyApi)).slice(2,5);
+    updateProgressBar(10, "Loading playlists...");
+    fetchedPlaylistsData = await getFullPlaylists(spotifyUserFollowedUsers);
+    window.localStorage.setItem(key, JSON.stringify(fetchedPlaylistsData));
   } else {
-    playlistsData = JSON.parse(playlistsData);
+    fetchedPlaylistsData = JSON.parse(fetchedPlaylistsData);
   }
-  return playlistsData;
+  hideProgressBar();
+  return fetchedPlaylistsData;
 }
 
 function getPlaylistHTML(playlist) {
   const image = playlist.images[playlist.images.length - 1];
   imageUrl = image ? image.url : "/default.png";
+
   return `<div role="row" aria-rowindex="1" aria-selected="false">
     <div
       data-testid="tracklist-row"
       class="e8ea6a219247d88aa936a012f6227b0d-scss bddcb131e9b40fa874148a30368d83f8-scss"
       draggable="true"
+      onclick="location='${playlist.uri}'"
     >
       <div
         class="_5845794624a406a62eb5b71d3d1c4d63-scss"
@@ -199,7 +247,8 @@ function getPlaylistHTML(playlist) {
             ><a
               draggable="true"
               dir="auto"
-              href="/artist/1ThoqLcyIYvZn7iWbj8fsj"
+              href="${playlist.owner.uri}"
+              onclick="stopEventPropagation(event)"
               tabindex="-1"
               >By ${playlist.owner.display_name}</a
             ></span
@@ -220,11 +269,77 @@ function getPlaylistHTML(playlist) {
   </div>`;
 }
 
+function stopEventPropagation(event) {
+    event.stopPropagation()
+  }
+
+function updateProgressBar(percent, text) {
+  progressBarPercent = percent;
+
+  if (text) {
+    document.getElementById("progressText").textContent = text;
+  }
+  document.getElementById("progressBar").style.width = `${percent}%`;
+}
+
+function incrementProgressBar() {
+  updateProgressBar(progressBarPercent + 40 / playlistsCount);
+}
+
+function hideProgressBar() {
+  document.getElementById("progressBarContainer").style.display = "none";
+}
+
 function renderUI(playlists) {
+  console.log(playlists);
   const playlistContainer = document.getElementById("playlistsContainer");
-  const sortedPlaylists = playlists.filter(x => x.followers > 0).sort((b, a) => a.followers - b.followers)
-  playlistsHtml = sortedPlaylists.map(getPlaylistHTML).join("");
+  playlistsHtml = playlists.map(getPlaylistHTML).join("");
   playlistContainer.innerHTML = playlistsHtml;
+}
+
+function selectButton(button) {
+  if (!button) {
+    return;
+  }
+
+  Array.from(button.parentElement.children).map((x) =>
+    x.firstElementChild.classList.remove(
+      "a4bc298d40e9660cd25cd3ac1a7f9c49-scss"
+    )
+  );
+
+  button.firstElementChild.classList.add(
+    "a4bc298d40e9660cd25cd3ac1a7f9c49-scss"
+  );
+}
+function renderPopular(button) {
+  selectButton(button);
+
+  renderUI(
+    playlistsData
+      .filter((x) => x.followers > 0)
+      .sort((b, a) => a.followers - b.followers)
+  );
+}
+
+function renderRecent(button) {
+  selectButton(button);
+
+  renderUI(
+    playlistsData
+      .filter((x) => x.followers > 0)
+      .sort((b, a) => a.last_updated - b.last_updated)
+  );
+}
+
+function renderNew(button) {
+  selectButton(button);
+
+  renderUI(
+    playlistsData
+      .filter((x) => x.followers > 0)
+      .sort((b, a) => a.created_at - b.created_at)
+  );
 }
 
 async function main() {
@@ -239,9 +354,9 @@ async function main() {
     window.localStorage.getItem("spotifyUserAccessToken")
   );
 
-  const playlistsData = await fetchPlaylists();
+  playlistsData = await fetchPlaylists();
   console.log(playlistsData);
-  renderUI(playlistsData);
+  renderPopular();
 }
 
 main();
