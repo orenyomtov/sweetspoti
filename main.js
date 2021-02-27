@@ -294,7 +294,6 @@ function hideProgressBar() {
 }
 
 function renderUI(playlists, getMetric) {
-  console.log(playlists);
   const playlistContainer = document.getElementById("playlistsContainer");
   playlistsWithMetric = playlists.map((item) => ({
     ...item,
@@ -376,7 +375,7 @@ async function main() {
   );
 
   playlistsData = await fetchPlaylists();
-  console.log(playlistsData);
+  
   renderPopular();
 }
 
