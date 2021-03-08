@@ -84,8 +84,8 @@ div[role="row"] {
     margin-bottom: 20px;
 }
 
-.fa {
-    margin-left: 10px;
+header .fa {
+    margin-left: 20px;
     z-index: 999 !important;
 }
 
