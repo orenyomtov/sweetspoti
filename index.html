@@ -100,18 +100,13 @@
               class="a339f5873501630360d9da0c7938f28b-scss"
               style="width: 100%"
             >
-              <h1 style="float: left">SweetSpoti</h1>
+              <h1 style="float: left; color: white">SweetSpoti</h1>
               <div style="float: right; font-size: x-large">
-                <a
-                  href="https://github.com/orenyomtov/sweetspoti"
-                  target="_blank"
-                  ><i class="fa fa-github"></i
+                <a href="#" onclick="refreshPlaylists()"
+                  ><i class="fa fa-refresh"></i
                 ></a>
                 <a href="#" onclick="showModal()"
                   ><i class="fa fa-info-circle"></i
-                ></a>
-                <a href="#" onclick="refreshPlaylists()"
-                  ><i class="fa fa-refresh"></i
                 ></a>
               </div>
             </div>
@@ -225,9 +220,17 @@
     <script src="https://cdn.jsdelivr.net/npm/promise-throttle@1.1.2/lib/main.min.js"></script>
     <script src="main.js"></script>
 
-    <div class="Dialog__Container-sc-3m0cq1-0 iYAZhG" id="modal" style="display: none" onclick="hideModal()">
+    <div
+      class="Dialog__Container-sc-3m0cq1-0 iYAZhG"
+      id="modal"
+      style="display: none"
+      onclick="hideModal()"
+    >
       <div opacity=".8" class="Dialog__Overlay-sc-3m0cq1-1 kBpaGs"></div>
-      <div class="Dialog__Content-sc-3m0cq1-2 gMyNDU" onclick="event.stopPropagation()">
+      <div
+        class="Dialog__Content-sc-3m0cq1-2 gMyNDU"
+        onclick="event.stopPropagation()"
+      >
         <section class="A2HSDialog__Container-lrjbwp-0 eszJbr">
           <h1
             class="Type__StyledComponent-ysj1j4-0 dvqtmO Canon-sc-2z1pi2-0 A2HSDialog__StyledCanon-lrjbwp-2 jXHdYP jmCZFY"
@@ -249,6 +252,20 @@
                 class="Type__StyledComponent-ysj1j4-0 dvqtmO Metronome-sc-11p54hg-0 Button__ButtonText-sc-17ovr4o-4 eqNKgW cIqIaE"
                 >Cool</span
               >
+            </button>
+          </div>
+          <div class="Button__RootWrapper-sc-17ovr4o-3 cLdxZC">
+            <button
+              version="secondary"
+              class="Button__button-sc-17ovr4o-1 cOmUeQ"
+            >
+              <span
+                class="Type__StyledComponent-ysj1j4-0 dvqtmO Metronome-sc-11p54hg-0 Button__ButtonText-sc-17ovr4o-4 eqNKgW cIqIaE"
+                ><a
+                  href="https://github.com/orenyomtov/sweetspoti"
+                  target="_blank" style="color: black;"
+                  ><i class="fa fa-github" style="font-size: xx-large"></i></a
+              ></span>
             </button>
           </div>
         </section>
