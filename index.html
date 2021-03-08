@@ -82,13 +82,18 @@
     />
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2HHZDMDD2R"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-2HHZDMDD2R"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-      gtag('config', 'G-2HHZDMDD2R');
+      gtag("config", "G-2HHZDMDD2R");
     </script>
   </head>
 
@@ -236,10 +241,23 @@
       style="display: none; height: 100%; width: 100%"
       onclick="hideModal()"
     >
-      <div opacity=".8" class="Dialog__Overlay-sc-3m0cq1-1 kBpaGs" style="width: 100%;height: 100%;position: absolute;left: 0; top:0; right:0; bottom: 0"></div>
+      <div
+        opacity=".8"
+        class="Dialog__Overlay-sc-3m0cq1-1 kBpaGs"
+        style="
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+        "
+      ></div>
       <div
         class="Dialog__Content-sc-3m0cq1-2 gMyNDU"
         onclick="event.stopPropagation()"
+        style="padding-bottom: 15px"
       >
         <section class="A2HSDialog__Container-lrjbwp-0 eszJbr">
           <h1
@@ -250,13 +268,21 @@
           <p
             class="Type__StyledComponent-ysj1j4-0 dvqtmO Ballad-uonr76-0 A2HSDialog__StyledBallad-lrjbwp-3 lejosA kZeVeK"
           >
-            Start listening from your phone’s home screen, no download required.
+            SweetSpoti shows you playlists created by the people you follow on
+            Spotify so you can discover new music.
+          </p>
+          <p
+            class="Type__StyledComponent-ysj1j4-0 dvqtmO Ballad-uonr76-0 A2HSDialog__StyledBallad-lrjbwp-3 lejosA kZeVeK"
+          >
+            This project is 100% client-side based and open-sourced. We can not
+            access or collect your Spotify data in any way.
           </p>
           <div class="Button__RootWrapper-sc-17ovr4o-3 cLdxZC">
             <button
               onclick="hideModal()"
               class="Button__button-sc-17ovr4o-1 bqwKHo A2HSDialog__AddButton-lrjbwp-4 jKeHhf"
-              version="primary" style="cursor: pointer"
+              version="primary"
+              style="cursor: pointer"
             >
               <span
                 class="Type__StyledComponent-ysj1j4-0 dvqtmO Metronome-sc-11p54hg-0 Button__ButtonText-sc-17ovr4o-4 eqNKgW cIqIaE"
@@ -273,12 +299,32 @@
                 class="Type__StyledComponent-ysj1j4-0 dvqtmO Metronome-sc-11p54hg-0 Button__ButtonText-sc-17ovr4o-4 eqNKgW cIqIaE"
                 ><a
                   href="https://github.com/orenyomtov/sweetspoti"
-                  target="_blank" style="color: black;"
+                  target="_blank"
+                  style="color: black"
                   ><i class="fa fa-github" style="font-size: xx-large"></i></a
               ></span>
             </button>
           </div>
         </section>
+        <p
+          class="Type__StyledComponent-ysj1j4-0 dvqtmO Ballad-uonr76-0 A2HSDialog__StyledBallad-lrjbwp-3 lejosA kZeVeK"
+          style="text-align: center; margin: 0"
+        >
+          by
+          <a
+            href="https://twitter.com/orenyomtov"
+            target="_blank"
+            style="color: #b3b3b3"
+            >Oren Yomtov</a
+          >
+          &
+          <a
+            href="https://twitter.com/IDardikman"
+            target="_blank"
+            style="color: #b3b3b3"
+            >Idan Dardikman</a
+          >
+        </p>
       </div>
     </div>
   </body>
