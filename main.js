@@ -14,6 +14,18 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+async function retryPromiseUntilSuccessful(promiseFunction) {
+  try {
+    let returnValue = await promiseFunction();
+    return returnValue;
+  } catch (e) {
+    console.warn('Sleeping for 5 seconds because of an error', e);
+    await sleep(5000);
+
+    return await retryPromiseUntilSuccessful(promiseFunction);
+  }
+}
+
 function timeAgo(time) {
   var units = [
     { name: "second", limit: 60, in_seconds: 1 },
@@ -42,9 +54,9 @@ async function getAllPages(request) {
   let currentResponse = paginatedResponse;
 
   while (currentResponse.next) {
-    currentResponse = await promiseThrottle.add(function () {
+    currentResponse = await promiseThrottle.add(function() { return retryPromiseUntilSuccessful(function () {
       return spotifyApi.getGeneric(currentResponse.next);
-    });
+    })});
     paginatedResponse.items = paginatedResponse.items.concat(
       currentResponse.items
     );
@@ -121,9 +133,9 @@ function getUserIds(followed) {
 
 async function getAllUserPlaylists(userId) {
   const playlistsResponse = await getAllPages(
-    promiseThrottle.add(function () {
+    promiseThrottle.add(function() { return retryPromiseUntilSuccessful(function () {
       return spotifyApi.getUserPlaylists(userId, { limit: 50 });
-    })
+    })})
   );
   const playlists = playlistsResponse.items;
   const onlyUserPlaylists = playlists.filter((p) => p.owner.id === userId);
@@ -133,9 +145,9 @@ async function getAllUserPlaylists(userId) {
 }
 
 async function augmentPlaylistWithFollowers(playlistObj) {
-  const { followers } = await promiseThrottle.add(function () {
+  const { followers } = await promiseThrottle.add(function() { return retryPromiseUntilSuccessful(function () {
     return spotifyApi.getPlaylist(playlistObj.id);
-  });
+  })});
   incrementProgressBar();
 
   return { ...playlistObj, followers: followers.total };
@@ -150,9 +162,9 @@ async function augmentPlaylistWithTracks(playlistObj) {
 
 async function getAllPlaylistTracks(playlistId) {
   const tracksResponse = await getAllPages(
-    promiseThrottle.add(function () {
+    promiseThrottle.add(function() { return retryPromiseUntilSuccessful(function () {
       return spotifyApi.getPlaylistTracks(playlistId);
-    })
+    })})
   );
   return tracksResponse.items;
 }
