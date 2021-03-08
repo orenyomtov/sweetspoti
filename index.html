@@ -52,7 +52,12 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="mobile-modal.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="mobile-modal.css"
+    />
     <link
       rel="stylesheet"
       href="https://open.scdn.co/cdn/build/web-player/web-player.9b650925.css"
@@ -98,13 +103,22 @@
             class="_233cba0ebe7615236e86592034108e77-scss"
           >
             <div
-              class="a339f5873501630360d9da0c7938f28b-scss" style="width: 100%"
+              class="a339f5873501630360d9da0c7938f28b-scss"
+              style="width: 100%"
             >
-              <h1 style="float: left;">SweetSpoti</h1>
-              <div style="float:right; font-size: x-large;">
-                <a href="https://github.com/orenyomtov/sweetspoti" target="_blank"><i class="fa fa-github"></i></a>
-                <a href="#" onclick="displayInfo()"><i class="fa fa-info-circle"></i></a>
-                <a href="#" onclick="refreshPlaylists()"><i class="fa fa-refresh"></i></a>
+              <h1 style="float: left">SweetSpoti</h1>
+              <div style="float: right; font-size: x-large">
+                <a
+                  href="https://github.com/orenyomtov/sweetspoti"
+                  target="_blank"
+                  ><i class="fa fa-github"></i
+                ></a>
+                <a href="#" onclick="displayInfo()"
+                  ><i class="fa fa-info-circle"></i
+                ></a>
+                <a href="#" onclick="refreshPlaylists()"
+                  ><i class="fa fa-refresh"></i
+                ></a>
               </div>
             </div>
           </div>
@@ -217,6 +231,62 @@
     <script src="https://cdn.jsdelivr.net/npm/promise-throttle@1.1.2/lib/main.min.js"></script>
     <script src="main.js"></script>
 
-    <div class="Dialog__Container-sc-3m0cq1-0 iYAZhG"><div opacity=".8" class="Dialog__Overlay-sc-3m0cq1-1 kBpaGs"></div><div class="Dialog__Content-sc-3m0cq1-2 gMyNDU"><section class="A2HSDialog__Container-lrjbwp-0 eszJbr"><div class="A2HSDialog__LogoContainer-lrjbwp-1 kYVvhd"><svg height="32" role="img" width="32" viewBox="0 0 24 24" aria-labelledby="spotify-logo-icon" class="Icon-sc-1h5rtgp-0 kFLAAG"><title id="spotify-logo-icon">Spotify logo</title><path d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zm5.366 15.857a.955.955 0 0 1-1.302.367 11.409 11.409 0 0 0-4.451-1.402 11.443 11.443 0 0 0-4.653.482.957.957 0 0 1-.582-1.823 13.32 13.32 0 0 1 5.429-.563c1.843.188 3.59.738 5.193 1.636.46.259.624.842.366 1.303zm1.318-3.341a.957.957 0 0 1-1.29.407 14.965 14.965 0 0 0-5.423-1.618 14.887 14.887 0 0 0-5.675.505.958.958 0 0 1-.53-1.838 16.847 16.847 0 0 1 6.398-.571c2.153.219 4.21.833 6.114 1.825.468.244.65.822.406 1.29zm.476-2.779a.957.957 0 0 1-.426-.1 18.475 18.475 0 0 0-6.406-1.849 18.472 18.472 0 0 0-6.66.526.958.958 0 0 1-.494-1.849 20.386 20.386 0 0 1 7.346-.581c2.478.251 4.856.938 7.066 2.04a.956.956 0 0 1-.426 1.813z" fill="currentColor" fill-rule="evenodd"></path><path fill="none" d="M0 0h24v24H0z"></path></svg></div><h1 class="Type__StyledComponent-ysj1j4-0 dvqtmO Canon-sc-2z1pi2-0 A2HSDialog__StyledCanon-lrjbwp-2 jXHdYP jmCZFY">Add Spotify to your home screen</h1><p class="Type__StyledComponent-ysj1j4-0 dvqtmO Ballad-uonr76-0 A2HSDialog__StyledBallad-lrjbwp-3 lejosA kZeVeK">Start listening from your phone’s home screen, no download required.</p><div class="Button__RootWrapper-sc-17ovr4o-3 cLdxZC"><button class="Button__button-sc-17ovr4o-1 bqwKHo A2HSDialog__AddButton-lrjbwp-4 jKeHhf" version="primary"><span class="Type__StyledComponent-ysj1j4-0 dvqtmO Metronome-sc-11p54hg-0 Button__ButtonText-sc-17ovr4o-4 eqNKgW cIqIaE">Add now</span></button></div><div class="Button__RootWrapper-sc-17ovr4o-3 cLdxZC"><button version="secondary" class="Button__button-sc-17ovr4o-1 cOmUeQ"><span class="Type__StyledComponent-ysj1j4-0 dvqtmO Metronome-sc-11p54hg-0 Button__ButtonText-sc-17ovr4o-4 eqNKgW cIqIaE">Dismiss</span></button></div></section></div></div>
+    <div class="Dialog__Container-sc-3m0cq1-0 iYAZhG">
+      <div opacity=".8" class="Dialog__Overlay-sc-3m0cq1-1 kBpaGs"></div>
+      <div class="Dialog__Content-sc-3m0cq1-2 gMyNDU">
+        <section class="A2HSDialog__Container-lrjbwp-0 eszJbr">
+          <div class="A2HSDialog__LogoContainer-lrjbwp-1 kYVvhd">
+            <svg
+              height="32"
+              role="img"
+              width="32"
+              viewBox="0 0 24 24"
+              aria-labelledby="spotify-logo-icon"
+              class="Icon-sc-1h5rtgp-0 kFLAAG"
+            >
+              <title id="spotify-logo-icon">Spotify logo</title>
+              <path
+                d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zm5.366 15.857a.955.955 0 0 1-1.302.367 11.409 11.409 0 0 0-4.451-1.402 11.443 11.443 0 0 0-4.653.482.957.957 0 0 1-.582-1.823 13.32 13.32 0 0 1 5.429-.563c1.843.188 3.59.738 5.193 1.636.46.259.624.842.366 1.303zm1.318-3.341a.957.957 0 0 1-1.29.407 14.965 14.965 0 0 0-5.423-1.618 14.887 14.887 0 0 0-5.675.505.958.958 0 0 1-.53-1.838 16.847 16.847 0 0 1 6.398-.571c2.153.219 4.21.833 6.114 1.825.468.244.65.822.406 1.29zm.476-2.779a.957.957 0 0 1-.426-.1 18.475 18.475 0 0 0-6.406-1.849 18.472 18.472 0 0 0-6.66.526.958.958 0 0 1-.494-1.849 20.386 20.386 0 0 1 7.346-.581c2.478.251 4.856.938 7.066 2.04a.956.956 0 0 1-.426 1.813z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              ></path>
+              <path fill="none" d="M0 0h24v24H0z"></path>
+            </svg>
+          </div>
+          <h1
+            class="Type__StyledComponent-ysj1j4-0 dvqtmO Canon-sc-2z1pi2-0 A2HSDialog__StyledCanon-lrjbwp-2 jXHdYP jmCZFY"
+          >
+            Add Spotify to your home screen
+          </h1>
+          <p
+            class="Type__StyledComponent-ysj1j4-0 dvqtmO Ballad-uonr76-0 A2HSDialog__StyledBallad-lrjbwp-3 lejosA kZeVeK"
+          >
+            Start listening from your phone’s home screen, no download required.
+          </p>
+          <div class="Button__RootWrapper-sc-17ovr4o-3 cLdxZC">
+            <button
+              class="Button__button-sc-17ovr4o-1 bqwKHo A2HSDialog__AddButton-lrjbwp-4 jKeHhf"
+              version="primary"
+            >
+              <span
+                class="Type__StyledComponent-ysj1j4-0 dvqtmO Metronome-sc-11p54hg-0 Button__ButtonText-sc-17ovr4o-4 eqNKgW cIqIaE"
+                >Add now</span
+              >
+            </button>
+          </div>
+          <div class="Button__RootWrapper-sc-17ovr4o-3 cLdxZC">
+            <button
+              version="secondary"
+              class="Button__button-sc-17ovr4o-1 cOmUeQ"
+            >
+              <span
+                class="Type__StyledComponent-ysj1j4-0 dvqtmO Metronome-sc-11p54hg-0 Button__ButtonText-sc-17ovr4o-4 eqNKgW cIqIaE"
+                >Dismiss</span
+              >
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
   </body>
 </html>
