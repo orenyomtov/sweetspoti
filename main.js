@@ -1,6 +1,8 @@
 var playlistsData = [];
 var metricType = "";
 var progressBarPercent = 0;
+var progressBarMessage = '';
+var progressBarIncrementCounter = 0;
 var playlistsCount = 0;
 var promiseThrottle = new PromiseThrottle({
   requestsPerSecond: 9,
@@ -280,8 +282,12 @@ function stopEventPropagation(event) {
   event.stopPropagation();
 }
 
-function updateProgressBar(percent, text) {
+function updateProgressBar(percent, text, progressBarIncrementCounterParam = 0) {
   progressBarPercent = percent;
+  if (!text.includes('(')) {
+    progressBarMessage = text;
+  }
+  progressBarIncrementCounter = progressBarIncrementCounterParam;
 
   if (text) {
     document.getElementById("progressText").textContent = text;
@@ -290,7 +296,7 @@ function updateProgressBar(percent, text) {
 }
 
 function incrementProgressBar() {
-  updateProgressBar(progressBarPercent + 30 / playlistsCount);
+  updateProgressBar(progressBarPercent + 30 / playlistsCount, `${progressBarMessage} (${progressBarIncrementCounter++}/${playlistsCount})`, progressBarIncrementCounter);
 }
 
 function hideProgressBar() {
