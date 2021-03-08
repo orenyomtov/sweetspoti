@@ -83,3 +83,8 @@ div[role="row"] {
     margin-top: 5px;
     margin-bottom: 20px;
 }
+
+.fa {
+    margin-left: 10px;
+    z-index: 999 !important;
+}

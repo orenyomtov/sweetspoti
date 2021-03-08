@@ -382,6 +382,11 @@ function renderNew(button) {
   );
 }
 
+function refreshPlaylists() {
+    localStorage.removeItem('playlistsData');
+    location.reload();
+}
+
 async function main() {
   try {
     wakeLock = await navigator.wakeLock.request("screen");

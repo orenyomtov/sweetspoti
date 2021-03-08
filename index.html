@@ -76,9 +76,41 @@
       rel="stylesheet"
       href="https://open.scdn.co/cdn/build/web-player/xpui-routes-collection.1ee87b73.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
   </head>
 
   <body dir="ltr">
+    <div class="Root__top-bar">
+      <header
+        aria-label="Top bar and user menu"
+        class="b00fbb9732b9fe65ded1ba887be5aef9-scss"
+      >
+        <div
+          data-testid="topbar-content-wrapper"
+          class="_4555ba2c05062f5eccc7f1c761fe0c7d-scss"
+        >
+          <div
+            data-testid="topbar-content"
+            class="_233cba0ebe7615236e86592034108e77-scss"
+          >
+            <div
+              class="a339f5873501630360d9da0c7938f28b-scss" style="width: 100%"
+            >
+              <h1 style="float: left;">SweetSpoti</h1>
+              <div style="float:right; font-size: x-large;">
+                <a href="https://github.com/orenyomtov/sweetspoti" target="_blank"><i class="fa fa-github"></i></a>
+                <a href="#" onclick="displayInfo()"><i class="fa fa-info-circle"></i></a>
+                <a href="#" onclick="refreshPlaylists()"><i class="fa fa-refresh"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div></div>
+    </div>
     <div class="Root__top-bar">
       <header
         aria-label="Top bar and user menu"
@@ -96,7 +128,10 @@
               class="a339f5873501630360d9da0c7938f28b-scss _0e8005074dbda3fac5e3e0351fa82d97-scss"
             >
               <ul class="_50d97b6270ce5e1b70d300348bc6b80d-scss">
-                <li class="_0787ecf44d56591be72b1f2c0e2f2320-scss" onclick="renderPopular(this)">
+                <li
+                  class="_0787ecf44d56591be72b1f2c0e2f2320-scss"
+                  onclick="renderPopular(this)"
+                >
                   <a
                     class="_43e978b8fbef3b1a5fc86ea29e51a0fd-scss a4bc298d40e9660cd25cd3ac1a7f9c49-scss"
                     draggable="false"
@@ -106,7 +141,10 @@
                     ></a
                   >
                 </li>
-                <li class="_0787ecf44d56591be72b1f2c0e2f2320-scss" onclick="renderRecent(this)">
+                <li
+                  class="_0787ecf44d56591be72b1f2c0e2f2320-scss"
+                  onclick="renderRecent(this)"
+                >
                   <a
                     class="_43e978b8fbef3b1a5fc86ea29e51a0fd-scss"
                     draggable="false"
@@ -115,7 +153,10 @@
                     ></a
                   >
                 </li>
-                <li class="_0787ecf44d56591be72b1f2c0e2f2320-scss" onclick="renderNew(this)">
+                <li
+                  class="_0787ecf44d56591be72b1f2c0e2f2320-scss"
+                  onclick="renderNew(this)"
+                >
                   <a
                     class="_43e978b8fbef3b1a5fc86ea29e51a0fd-scss"
                     draggable="false"
@@ -162,8 +203,7 @@
             <div
               class="c27f49a483c85a5b88b3f37fb918e497-scss"
               id="playlistsContainer"
-            >
-            </div>
+            ></div>
           </div>
         </div>
       </div>
