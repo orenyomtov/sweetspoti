@@ -1,7 +1,7 @@
 var playlistsData = [];
 var metricType = "";
 var progressBarPercent = 0;
-var progressBarMessage = '';
+var progressBarMessage = "";
 var progressBarIncrementCounter = 0;
 var playlistsCount = 0;
 var promiseThrottle = new PromiseThrottle({
@@ -19,7 +19,7 @@ async function retryPromiseUntilSuccessful(promiseFunction) {
     let returnValue = await promiseFunction();
     return returnValue;
   } catch (e) {
-    console.warn('Sleeping for 5 seconds because of an error', e);
+    console.warn("Sleeping for 5 seconds because of an error", e);
     await sleep(5000);
 
     return await retryPromiseUntilSuccessful(promiseFunction);
@@ -54,9 +54,11 @@ async function getAllPages(request) {
   let currentResponse = paginatedResponse;
 
   while (currentResponse.next) {
-    currentResponse = await promiseThrottle.add(function() { return retryPromiseUntilSuccessful(function () {
-      return spotifyApi.getGeneric(currentResponse.next);
-    })});
+    currentResponse = await promiseThrottle.add(function () {
+      return retryPromiseUntilSuccessful(function () {
+        return spotifyApi.getGeneric(currentResponse.next);
+      });
+    });
     paginatedResponse.items = paginatedResponse.items.concat(
       currentResponse.items
     );
@@ -133,21 +135,24 @@ function getUserIds(followed) {
 
 async function getAllUserPlaylists(userId) {
   const playlistsResponse = await getAllPages(
-    promiseThrottle.add(function() { return retryPromiseUntilSuccessful(function () {
-      return spotifyApi.getUserPlaylists(userId, { limit: 50 });
-    })})
+    promiseThrottle.add(function () {
+      return retryPromiseUntilSuccessful(function () {
+        return spotifyApi.getUserPlaylists(userId, { limit: 50 });
+      });
+    })
   );
   const playlists = playlistsResponse.items;
   const onlyUserPlaylists = playlists.filter((p) => p.owner.id === userId);
   incrementProgressBar();
-  console.log(userId);
   return onlyUserPlaylists;
 }
 
 async function augmentPlaylistWithFollowers(playlistObj) {
-  const { followers } = await promiseThrottle.add(function() { return retryPromiseUntilSuccessful(function () {
-    return spotifyApi.getPlaylist(playlistObj.id);
-  })});
+  const { followers } = await promiseThrottle.add(function () {
+    return retryPromiseUntilSuccessful(function () {
+      return spotifyApi.getPlaylist(playlistObj.id);
+    });
+  });
   incrementProgressBar();
 
   return { ...playlistObj, followers: followers.total };
@@ -162,9 +167,11 @@ async function augmentPlaylistWithTracks(playlistObj) {
 
 async function getAllPlaylistTracks(playlistId) {
   const tracksResponse = await getAllPages(
-    promiseThrottle.add(function() { return retryPromiseUntilSuccessful(function () {
-      return spotifyApi.getPlaylistTracks(playlistId);
-    })})
+    promiseThrottle.add(function () {
+      return retryPromiseUntilSuccessful(function () {
+        return spotifyApi.getPlaylistTracks(playlistId);
+      });
+    })
   );
   return tracksResponse.items;
 }
@@ -294,9 +301,13 @@ function stopEventPropagation(event) {
   event.stopPropagation();
 }
 
-function updateProgressBar(percent, text, progressBarIncrementCounterParam = 0) {
+function updateProgressBar(
+  percent,
+  text,
+  progressBarIncrementCounterParam = 0
+) {
   progressBarPercent = percent;
-  if (!text.includes('(')) {
+  if (!text.includes("(")) {
     progressBarMessage = text;
   }
   progressBarIncrementCounter = progressBarIncrementCounterParam;
@@ -308,7 +319,11 @@ function updateProgressBar(percent, text, progressBarIncrementCounterParam = 0) 
 }
 
 function incrementProgressBar() {
-  updateProgressBar(progressBarPercent + 30 / playlistsCount, `${progressBarMessage} (${progressBarIncrementCounter++}/${playlistsCount})`, progressBarIncrementCounter);
+  updateProgressBar(
+    progressBarPercent + 30 / playlistsCount,
+    `${progressBarMessage} (${progressBarIncrementCounter++}/${playlistsCount})`,
+    progressBarIncrementCounter
+  );
 }
 
 function hideProgressBar() {
@@ -383,8 +398,8 @@ function renderNew(button) {
 }
 
 function refreshPlaylists() {
-    localStorage.removeItem('playlistsData');
-    location.reload();
+  localStorage.removeItem("playlistsData");
+  location.reload();
 }
 
 async function main() {
