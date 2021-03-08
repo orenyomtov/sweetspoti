@@ -88,3 +88,135 @@ div[role="row"] {
     margin-left: 10px;
     z-index: 999 !important;
 }
+
+/* Modal CSS */
+
+* {
+    box-sizing: border-box;
+}
+
+.iYAZhG {
+    animation: 0.3s cubic-bezier(0.3, 0, 0, 1) 0s 1 normal forwards running jBcSpD;
+    -webkit-box-align: center;
+    align-items: center;
+    inset: 0px;
+    display: flex;
+    position: fixed;
+    padding: 24px;
+    z-index: 4;
+}
+
+.kBpaGs {
+    background-color: rgb(0, 0, 0);
+    opacity: 0.8;
+    inset: 0px;
+    position: fixed;
+}
+
+.gMyNDU {
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+  padding: 40px 24px 24px;
+  width: 100%;
+  max-height: 85%;
+  z-index: 1;
+}
+
+.eszJbr {
+  -webkit-box-align: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.kYVvhd {
+  background-color: rgb(29, 185, 84);
+  border-radius: 8px;
+  margin-bottom: 24px;
+  padding: 8px;
+}
+
+.jmCZFY {
+  margin: 0px 0px 8px;
+}
+
+.eszJbr * {
+  user-select: none;
+}
+
+.dvqtmO {
+  font-family: spotify-circular, spotify-circular-cyrillic, spotify-circular-arabic, spotify-circular-hebrew, "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic Pro", Meiryo, "MS Gothic", sans-serif;
+}
+
+.jXHdYP {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 28px;
+}
+
+.lejosA {
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 24px;
+}
+
+.cLdxZC {
+  display: inline-block;
+  position: relative;
+}
+
+.jKeHhf {
+  margin-bottom: 8px;
+}
+
+.cIqIaE {
+  visibility: initial;
+}
+
+.eqNKgW {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+.cLdxZC {
+  display: inline-block;
+  position: relative;
+}
+
+.cOmUeQ {
+  background-color: rgb(255, 255, 255);
+  border: 1px solid transparent;
+  border-radius: 24px;
+  color: rgb(0, 0, 0);
+  display: inline-block;
+  padding: 16px 48px;
+  text-align: center;
+}
+
+.eqNKgW {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+.bqwKHo {
+  background-color: rgb(29, 185, 84);
+  border: 1px solid transparent;
+  border-radius: 24px;
+  color: rgb(255, 255, 255);
+  display: inline-block;
+  padding: 16px 48px;
+  text-align: center;
+}
+
+.kZeVeK {
+  margin: 0px 0px 20px;
+}
