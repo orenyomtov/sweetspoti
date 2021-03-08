@@ -397,6 +397,14 @@ function renderNew(button) {
   );
 }
 
+function hideModal() {
+  document.getElementById('modal').style.display = 'none'
+}
+
+function showModal() {
+  document.getElementById('modal').style.display = 'flex'
+}
+
 function refreshPlaylists() {
   localStorage.removeItem("playlistsData");
   location.reload();
