@@ -402,6 +402,12 @@ function refreshPlaylists() {
   location.reload();
 }
 
+function refreshPageWhenTokenExpires() {
+  const timeUntilTokenExpires = parseInt(window.localStorage.getItem("spotifyUserAccessTokenExpiry")) - Date.now()
+  
+  setTimeout(redirectToLogin, timeUntilTokenExpires - 10000);
+}
+
 async function main() {
   try {
     wakeLock = await navigator.wakeLock.request("screen");
@@ -416,6 +422,8 @@ async function main() {
     document.getElementsByClassName("progress")[0].style.display = "none";
     return redirectToLogin();
   }
+
+  refreshPageWhenTokenExpires();
 
   window.spotifyApi = new SpotifyWebApi();
   spotifyApi.setAccessToken(
